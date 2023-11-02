@@ -16,7 +16,7 @@ class LinksList {
         return link;
     }
     buildLink(linkId, input){
-        return this.links[linkId].start + input + this.links[linkId].end;
+        return this.links[linkId].start + input.normalize("NFD").replace(/[\u0300-\u036f]/g, "") + this.links[linkId].end;
     }
 }
 
