@@ -49,3 +49,11 @@ main {
     border-radius: 3px;
     font-size: 1rem;
 }
+
+#source-text {
+    position: absolute;
+    margin: 2rem;
+    right: 0;
+    bottom: 0;
+    font-size: 1rem;
+}
