@@ -31,9 +31,12 @@ class OptionsList{
         this.options = [];
         return prevOptions;
     }
-    buildLink(optionId, input){
-        return this.options[optionId].start + input.normalize("NFD").replace(/[\u0300-\u036f]/g, "") + this.options[optionId].end;
-    }
+}
+
+function buildLink(optionId, input){
+    const selectedOption = optionsList.options[optionId];
+    let link = selectedOption.start + input.normalize("NFD").replace(/[\u0300-\u036f]/g, "") + selectedOption.end;
+    return link;
 }
 
 function saveToLocalStorage(){
@@ -64,7 +67,7 @@ function refreshDisplay(){
 
 function search(optionId){
     let input = document.getElementById("search-input").value;
-    window.open(optionsList.buildLink(optionId, input), "_self");
+    window.open(buildLink(optionId, input), "_self");
 }
 
 /* CODE STARTS */
