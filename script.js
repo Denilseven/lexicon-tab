@@ -13,6 +13,10 @@ class LinksList {
     newLink(name, start, end){
         let link = new BaseLink(name, start, end);
         this.links.push(link);
+
+        let linksList_serialized = JSON.stringify(linksList);
+        localStorage.setItem("savedLinks", linksList_serialized);
+
         return link;
     }
     buildLink(linkId, input){
@@ -20,7 +24,31 @@ class LinksList {
     }
 }
 
+function search(linkId){
+    let input = document.getElementById("search-input").value;
+    window.open(linksList.buildLink(linkId, input), "_self");
+}
+
+function refreshDisplay(){
+    let currentButtons = document.getElementsByClassName("search-button");
+    while(currentButtons.length > 0){
+        currentButtons[0].remove();
+    }
+
+    let savedLinks = localStorage.getItem("savedLinks");
+    for (let i = 0; i < savedLinks.length; i++) {
+        let newButton = document.createElement("button");
+        newButton.classList.add("search-button");
+        newButton.onclick = function(){search(i)};
+        let textNode = document.createTextNode(linksList.links[i].name);
+        newButton.appendChild(textNode);
+        let containerDiv = document.querySelector(".buttons-container");
+        containerDiv.appendChild(newButton);
+    }
+}
+
 let linksList = new LinksList();
+
 linksList.newLink("Dictionary", "https://www.dictionary.com/browse/", ""); // dictionary.com (english dictionary)
 linksList.newLink("Thesaurus", "https://www.thesaurus.com/browse/", ""); // thesaurus.com (english synonyms and antonyms)
 linksList.newLink("Urban Dictionary", "https://www.urbandictionary.com/define.php?term=", ""); // urbandictionary.com (english slangs)
@@ -30,21 +58,4 @@ linksList.newLink("Antônimos", "https://www.antonimos.com.br/", "/"); // antoni
 linksList.newLink("Translate (english to portuguese)", "https://translate.google.com/?sl=en&tl=pt&text=", "&op=translate"); // Google translate word from english to portuguese
 linksList.newLink("Translate (portuguese to english)", "https://translate.google.com/?sl=pt&tl=en&text=", "&op=translate"); // Google translate word from portuguese to english
 
-// Create buttons
-for (let i = 0; i < linksList.links.length; i++) {
-    let newButton = document.createElement("button");
-    newButton.classList.add("search-button");
-    newButton.onclick = function(){search(i)};
-
-    let textNode = document.createTextNode(linksList.links[i].name);
-
-    newButton.appendChild(textNode);
-
-    let containerDiv = document.querySelector(".buttons-container");
-    containerDiv.appendChild(newButton);
-}
-
-function search(linkId){
-    let input = document.getElementById("search-input").value;
-    window.open(linksList.buildLink(linkId, input), "_self");
-}
+refreshDisplay();
