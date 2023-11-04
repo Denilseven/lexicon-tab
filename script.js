@@ -57,7 +57,8 @@ function refreshDisplay(){
         newButton.appendChild(textNode);
         
         let containerDiv = document.querySelector(".buttons-container");
-        containerDiv.appendChild(newButton);
+        let createButton = containerDiv.querySelector("#create-button");
+        containerDiv.insertBefore(newButton, createButton);
     }
 }
 
