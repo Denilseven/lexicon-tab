@@ -60,7 +60,7 @@ function refreshDisplay(){
         newButton.appendChild(textNode);
         
         let containerDiv = document.querySelector(".buttons-container");
-        let createButton = containerDiv.querySelector("#create-button");
+        let createButton = containerDiv.querySelector("#open-create-menu");
         containerDiv.insertBefore(newButton, createButton);
     }
 }
@@ -70,9 +70,35 @@ function search(optionId){
     window.open(buildLink(optionId, input), "_self");
 }
 
+function showMenu(menuId){
+    const menu = document.getElementById(menuId);
+    menu.style.display = "flex";
+}
+
+function hideMenu(menuId){
+    const menu = document.getElementById(menuId);
+    menu.style.display = "none";
+}
+
+function createNewOptionFromMenu(){
+    const name = document.getElementById("option-name-input");
+    const start = document.getElementById("option-start-input");
+    const end = document.getElementById("option-end-input");
+
+    let option = new Option(name.value, start.value, end.value);
+    optionsList.options.push(option);
+
+    name.value = "";
+    start.value = "";
+    end.value = "";
+    saveToLocalStorage();
+    refreshDisplay();
+    hideMenu("create-option-menu");
+}
+
 /* CODE STARTS */
 
-let optionsList = new OptionsList;
+let optionsList = new OptionsList();
 
 const save = localStorage.getItem("savedOptions");
 if (save == null){
@@ -86,3 +112,4 @@ else {
 }
 
 refreshDisplay();
+hideMenu("create-option-menu");
