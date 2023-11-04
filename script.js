@@ -1,4 +1,4 @@
-class BaseLink {
+class Option{
     constructor(name, start, end){
         this.name = name;
         this.start = start;
@@ -6,66 +6,79 @@ class BaseLink {
     }
 }
 
-class LinksList {
+class OptionsList{
     constructor(){
-        this.links = [];
+        this.options = [];
     }
-    newLink(name, start, end){
-        let link = new BaseLink(name, start, end);
-        this.links.push(link);
+    createOption(name, start, end){
+        let option = new Option(name, start, end);
+        this.options.push(option);
 
-        let linksList_serialized = JSON.stringify(linksList);
-        localStorage.setItem("savedLinks", linksList_serialized);
-
-        return link;
+        return option;
     }
-    removeLink(name){
-        for (let i = 0; i < this.links.length; i++) {
-            const element = this.links[i];
+    removeOption(name){
+        for (let i = 0; i < this.options.length; i++) {
+            const element = this.options[i];
             if (element.name == name){
-                this.links.splice(i, 1);
+                this.options.splice(i, 1);
                 return element;
             }
         }
         return undefined;
     }
     removeAll(){
-        const prevLinks = this.links;
-        this.links = [];
-        return prevLinks;
+        const prevOptions = this.option;
+        this.options = [];
+        return prevOptions;
     }
-    buildLink(linkId, input){
-        return this.links[linkId].start + input.normalize("NFD").replace(/[\u0300-\u036f]/g, "") + this.links[linkId].end;
+    buildLink(optionId, input){
+        return this.options[optionId].start + input.normalize("NFD").replace(/[\u0300-\u036f]/g, "") + this.options[optionId].end;
     }
 }
 
-function search(linkId){
-    let input = document.getElementById("search-input").value;
-    window.open(linksList.buildLink(linkId, input), "_self");
+function saveToLocalStorage(){
+    const serializedOptionsList = JSON.stringify(optionsList);
+    localStorage.setItem("savedOptions", serializedOptionsList);
+    return serializedOptionsList;
 }
 
 function refreshDisplay(){
-    let currentButtons = document.getElementsByClassName("search-button");
-    while(currentButtons.length > 0){
-        currentButtons[0].remove();
+    let prevButtons = document.getElementsByClassName("search-button");
+    while(prevButtons.length > 0){
+        prevButtons[0].remove();
     }
 
-    let savedLinks = localStorage.getItem("savedLinks");
-    for (let i = 0; i < savedLinks.length; i++) {
+    for (let i = 0; i < optionsList.options.length; i++) {
         let newButton = document.createElement("button");
         newButton.classList.add("search-button");
         newButton.onclick = function(){search(i)};
-        let textNode = document.createTextNode(linksList.links[i].name);
+        
+        let textNode = document.createTextNode(optionsList.options[i].name);
         newButton.appendChild(textNode);
+        
         let containerDiv = document.querySelector(".buttons-container");
         containerDiv.appendChild(newButton);
     }
 }
 
-let linksList = new LinksList();
+function search(optionId){
+    let input = document.getElementById("search-input").value;
+    window.open(optionsList.buildLink(optionId, input), "_self");
+}
 
-linksList.newLink("Dictionary", "https://www.dictionary.com/browse/", ""); // dictionary.com (english dictionary)
-linksList.newLink("Thesaurus", "https://www.thesaurus.com/browse/", ""); // thesaurus.com (english synonyms and antonyms)
-linksList.newLink("Urban Dictionary", "https://www.urbandictionary.com/define.php?term=", ""); // urbandictionary.com (english slangs)
+/* CODE STARTS */
+
+let optionsList = new OptionsList;
+
+const save = localStorage.getItem("savedOptions");
+if (save == null){
+    optionsList.createOption("Dictionary", "https://www.dictionary.com/browse/", "");
+    optionsList.createOption("Thesaurus", "https://www.thesaurus.com/browse/", "");
+    optionsList.createOption("Urban Dictionary", "https://www.urbandictionary.com/define.php?term=", "");
+    saveToLocalStorage();
+}
+else {
+    optionsList = JSON.parse(save);
+}
 
 refreshDisplay();
