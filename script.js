@@ -55,6 +55,12 @@ function refreshDisplay(){
         let newButton = document.createElement("button");
         newButton.classList.add("search-button");
         newButton.onclick = function(){search(i)};
+        newButton.oncontextmenu = function(){
+            optionsList.options.splice(i, 1);
+            saveToLocalStorage();
+            refreshDisplay();
+            return false;
+        }
         
         let textNode = document.createTextNode(optionsList.options[i].name);
         newButton.appendChild(textNode);
