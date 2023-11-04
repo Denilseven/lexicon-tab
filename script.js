@@ -65,7 +65,7 @@ function refreshDisplay(){
         let textNode = document.createTextNode(optionsList.options[i].name);
         newButton.appendChild(textNode);
         
-        let containerDiv = document.querySelector(".buttons-container");
+        let containerDiv = document.querySelector("#options-holder");
         let createButton = containerDiv.querySelector("#open-create-menu");
         containerDiv.insertBefore(newButton, createButton);
     }

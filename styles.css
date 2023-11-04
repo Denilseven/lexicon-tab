@@ -43,8 +43,7 @@ main {
     flex-wrap: wrap;
 }
 
-.search-button,
-#open-create-menu {
+button {
     padding: 1rem;
     border: none;
     border-radius: 3px;
@@ -71,4 +70,13 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 1rem;
+}
+
+.normal-input {
+    padding: 1rem;
+    border: 2px solid black;
+    border-radius: 3px;
+    outline: none;
+    font-size: 2rem;
 }
