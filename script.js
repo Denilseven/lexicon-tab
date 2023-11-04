@@ -19,6 +19,21 @@ class LinksList {
 
         return link;
     }
+    removeLink(name){
+        for (let i = 0; i < this.links.length; i++) {
+            const element = this.links[i];
+            if (element.name == name){
+                this.links.splice(i, 1);
+                return element;
+            }
+        }
+        return undefined;
+    }
+    removeAll(){
+        const prevLinks = this.links;
+        this.links = [];
+        return prevLinks;
+    }
     buildLink(linkId, input){
         return this.links[linkId].start + input.normalize("NFD").replace(/[\u0300-\u036f]/g, "") + this.links[linkId].end;
     }
@@ -52,10 +67,5 @@ let linksList = new LinksList();
 linksList.newLink("Dictionary", "https://www.dictionary.com/browse/", ""); // dictionary.com (english dictionary)
 linksList.newLink("Thesaurus", "https://www.thesaurus.com/browse/", ""); // thesaurus.com (english synonyms and antonyms)
 linksList.newLink("Urban Dictionary", "https://www.urbandictionary.com/define.php?term=", ""); // urbandictionary.com (english slangs)
-linksList.newLink("Dicio", "https://www.dicio.com.br/", "/"); // dicio.com.br (brazilian portuguese dictionary)
-linksList.newLink("Sinônimos", "https://www.sinonimos.com.br/", "/"); // sinonimos.com.br (brazilian portuguese synonyms)
-linksList.newLink("Antônimos", "https://www.antonimos.com.br/", "/"); // antonimos.com.br (brazilian portuguese antonyms)
-linksList.newLink("Translate (english to portuguese)", "https://translate.google.com/?sl=en&tl=pt&text=", "&op=translate"); // Google translate word from english to portuguese
-linksList.newLink("Translate (portuguese to english)", "https://translate.google.com/?sl=pt&tl=en&text=", "&op=translate"); // Google translate word from portuguese to english
 
 refreshDisplay();
