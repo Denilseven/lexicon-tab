@@ -51,10 +51,11 @@ button {
 }
 
 #source-text {
+    z-index: 10;
     position: absolute;
     margin: 2rem;
     right: 0;
-    bottom: 0;
+    top: 0;
     font-size: 1rem;
 }
 
