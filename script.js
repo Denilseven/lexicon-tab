@@ -35,7 +35,7 @@ class OptionsList{
 
 function buildLink(optionId, input){
     const selectedOption = optionsList.options[optionId];
-    let link = selectedOption.start + input.normalize("NFD").replace(/[\u0300-\u036f]/g, "") + selectedOption.end;
+    let link = selectedOption.start + input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() + selectedOption.end;
     return link;
 }
 
