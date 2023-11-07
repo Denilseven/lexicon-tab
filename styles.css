@@ -6,12 +6,31 @@
     --small-margin: 1rem;
     --border-radius: 3px;
     --focus-color: #4361ee;
+    --background-color: white;
+    --buttons-color: #e9e9ed;
+    --buttons-hover-color: #a9c5e5;
+    --buttons-fancy-color: #3997f5;
+    --lines-color: black;
+    --text-color: black;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --focus-color: #ffb703;
+        --background-color: #0d0f19;
+        --buttons-color: #14213d;
+        --buttons-hover-color: #166e7c;
+        --buttons-fancy-color: rgb(231, 142, 40);
+        --lines-color: rgba(255, 255, 255, 0.5);
+        --text-color: #ececec;
+    }
 }
 
 * {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
+    color: var(--text-color);
 }
 
 *:focus {
@@ -19,6 +38,7 @@
 }
 
 body {
+    background-color: var(--background-color);
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -35,30 +55,33 @@ body {
 }
 
 #search-input {
+    background-color: var(--background-color);
     padding: 2rem;
     font-size: 3.5rem;
-    border: 2px solid black;
+    border: 2px solid var(--lines-color);
     border-radius: var(--border-radius);
     width: calc(100% - 4rem);
 }
 
 button {
+    background-color: var(--buttons-color);
     padding: 1rem;
     border: none;
     border-radius: var(--border-radius);
     font-size: 1rem;
 }
 
+button:hover {
+    background-color: var(--buttons-hover-color);
+}
+
 .main-button {
-    color: white;
-    background-color: var(--focus-color);
-} .main-button:hover {
-    filter: brightness(70%) saturate(120%);
+    background-color: var(--buttons-fancy-color);
 }
 
 #create-option-menu {
     z-index: 5;
-    background-color: white;
+    background-color: var(--background-color);
     position: absolute;
     top: 0;
     right: 0;
@@ -67,8 +90,9 @@ button {
 }
 
 .normal-input {
+    background-color: var(--background-color);
     padding: 1rem;
-    border: 2px solid black;
+    border: 2px solid var(--lines-color);
     border-radius: var(--border-radius);
     font-size: 2rem;
 }
@@ -80,6 +104,7 @@ button {
     top: 0;
     right: 0;
     font-size: 1rem;
+    color: var(--focus-color);
 }
 
 /* HELPER CLASSES */
