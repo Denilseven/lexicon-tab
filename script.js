@@ -119,3 +119,4 @@ else {
 
 refreshDisplay();
 hideMenu("create-option-menu");
+document.getElementById("search-input").focus();
