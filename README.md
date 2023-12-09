@@ -1,12 +1,14 @@
 # What is this?
 
+<img src="example_dark_light.png" alt="example screenshot">
+
 This is a page I've built to make it more convenient to search the definition of words in various dictionaries, translators and search engines online.
 
 # How it works
 
 When you click one of the buttons it will open, in the same tab, a link that is the combination of the input you've given in the topmost box and the link of that dictionary.
 
-For example, if you write ````Test```` in the input box and then click the default ````Dictionary```` button, it will open this link: ````https://www.dictionary.com/browse/Test````
+For example, if you write ````Test```` in the input box and then click the default ````Dictionary```` button, it will open this link: ````https://www.dictionary.com/browse/test````
 
 # How to use it
 
