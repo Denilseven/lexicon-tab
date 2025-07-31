@@ -22,14 +22,25 @@
 
         <section id="create-option-menu" class="flex-center">
             <div class="vertical-container medium-bottom-margin">
-                <input type="text" id="option-name-input" class="normal-input" placeholder="name"/>
-                <input type="text" id="option-link-input" class="normal-input" placeholder="link"/>
+                <p>ADD A NEW OPTION</p>
+                <input type="text" id="option-name-input" class="normal-input" placeholder="Name"/>
+                <input type="text" id="option-link-input" class="normal-input" placeholder="Link"/>
             </div>
             
             <div class="horizontal-container">
                 <button onclick="hideCreateMenu()">Close menu</button>
                 <button onclick="{ hideCreateMenu(); addOptionFromMenu(); saveToLocalStorage(); updateDisplay(); }" class="main-button">Add option</button>
             </div>
+
+            <details>
+                <summary><h2>How do I use this?</h2></summary>
+                <p>The "name" of an option can be whatever you want. As for the link, you can grab the URL in the address bar for the site you just searched a word in and then replace that word with an all-caps "LEXICON"!</p>
+                <p><h2>Examples</h2></p>
+                <p>Dictionary:<br>https://www.dictionary.com/browse/<b>LEXICON</b></p>
+                <p>Thesaurus:<br>https://www.thesaurus.com/browse/<b>LEXICON</b></p>
+                <p>Urban Dict.:<br>https://www.urbandictionary.com/define.php?term=<b>LEXICON</b></p>
+                <p>Auto to Latin in Google Translate:<br>https://translate.google.com/?sl=auto&tl=la&text=<b>LEXICON</b>&op=translate</p>
+            </details>
         </section>
 
         
