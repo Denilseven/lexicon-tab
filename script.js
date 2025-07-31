@@ -1,122 +1,140 @@
-class Option{
-    constructor(name, start, end){
-        this.name = name;
-        this.start = start;
-        this.end = end;
-    }
-}
+// TODO: add "restore default options" button/"link"
+// TODO: explain how to add new options in the create menu
+// TODO: explain how right-clicking deletes options
+// TODO: fix edge-case of creating empty options
+// TODO: add a favicon
 
-class OptionsList{
-    constructor(){
-        this.options = [];
-    }
-    createOption(name, start, end){
-        let option = new Option(name, start, end);
-        this.options.push(option);
+const SEARCH_WORD_FORMAT = "LEXICON";
 
-        return option;
-    }
-    removeOption(name){
-        for (let i = 0; i < this.options.length; i++) {
-            const element = this.options[i];
-            if (element.name == name){
-                this.options.splice(i, 1);
-                return element;
-            }
-        }
-        return undefined;
-    }
-    removeAll(){
-        const prevOptions = this.option;
-        this.options = [];
-        return prevOptions;
-    }
-}
+const DEFAULT_OPTION_NAMES = [
+    "Dictionary",
+    "Thesaurus",
+    "Urban Dict.",
+];
+const DEFAULT_OPTION_LINKS = [
+    `https://www.dictionary.com/browse/${SEARCH_WORD_FORMAT}`,
+    `https://www.thesaurus.com/browse/${SEARCH_WORD_FORMAT}`,
+    `https://www.urbandictionary.com/define.php?term=${SEARCH_WORD_FORMAT}`,
+];
 
-function buildLink(optionId, input){
-    const selectedOption = optionsList.options[optionId];
-    let link = selectedOption.start + input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() + selectedOption.end;
-    return link;
-}
-
-function saveToLocalStorage(){
-    const serializedOptionsList = JSON.stringify(optionsList);
-    localStorage.setItem("savedOptions", serializedOptionsList);
-    return serializedOptionsList;
-}
-
-function refreshDisplay(){
-    let prevButtons = document.getElementsByClassName("search-button");
-    while(prevButtons.length > 0){
-        prevButtons[0].remove();
-    }
-
-    for (let i = 0; i < optionsList.options.length; i++) {
-        let newButton = document.createElement("button");
-        newButton.classList.add("search-button");
-        newButton.onclick = function(){search(i)};
-        newButton.oncontextmenu = function(){
-            optionsList.options.splice(i, 1);
-            saveToLocalStorage();
-            refreshDisplay();
-            return false;
-        }
-        
-        let textNode = document.createTextNode(optionsList.options[i].name);
-        newButton.appendChild(textNode);
-        
-        let containerDiv = document.querySelector("#options-holder");
-        let createButton = containerDiv.querySelector("#open-create-menu");
-        containerDiv.insertBefore(newButton, createButton);
-    }
-}
-
-function search(optionId){
-    let input = document.getElementById("search-input").value;
-    window.open(buildLink(optionId, input), "_self");
-}
-
-function showMenu(menuId){
-    const menu = document.getElementById(menuId);
-    menu.style.display = "flex";
-}
-
-function hideMenu(menuId){
-    const menu = document.getElementById(menuId);
-    menu.style.display = "none";
-}
-
-function createNewOptionFromMenu(){
-    const name = document.getElementById("option-name-input");
-    const start = document.getElementById("option-start-input");
-    const end = document.getElementById("option-end-input");
-
-    let option = new Option(name.value, start.value, end.value);
-    optionsList.options.push(option);
-
-    name.value = "";
-    start.value = "";
-    end.value = "";
-    saveToLocalStorage();
-    refreshDisplay();
-    hideMenu("create-option-menu");
-}
+let optionNames = [];
+let optionLinks = [];
 
 /* CODE STARTS */
 
-let optionsList = new OptionsList();
-
-const save = localStorage.getItem("savedOptions");
-if (save == null){
-    optionsList.createOption("Dictionary", "https://www.dictionary.com/browse/", "");
-    optionsList.createOption("Thesaurus", "https://www.thesaurus.com/browse/", "");
-    optionsList.createOption("Urban Dictionary", "https://www.urbandictionary.com/define.php?term=", "");
-    saveToLocalStorage();
-}
-else {
-    optionsList = JSON.parse(save);
+{
+    const localSave = localStorage.getItem("localOptions");
+    if (localSave == null)
+        restoreDefaultOptions();
+    else {
+        const parsedSaveObject = JSON.parse(localSave);
+        optionNames = parsedSaveObject.names;
+        optionLinks = parsedSaveObject.links;
+    }
 }
 
-refreshDisplay();
-hideMenu("create-option-menu");
-document.getElementById("search-input").focus();
+updateDisplay();
+hideCreateMenu();
+
+{
+    const searchBox = document.getElementById("search-input");
+    searchBox.focus();
+    searchBox.value = "";
+}
+
+/* FUNCTION DEFINITIONS */
+
+function getOptionIndex(name) {
+    for (let i = 0; i < optionNames.length; i++) {
+        if (optionNames[i] == name)
+            return i; // return the index if the option exists
+    }
+    return optionNames.length; // return an empty index at the end if it doesn't exist 
+}
+
+function addOption(name, link) {
+    const optionIndex = getOptionIndex(name);
+    optionNames[optionIndex] = name;
+    optionLinks[optionIndex] = link;
+}
+
+function removeOption(name) {
+    const optionIndex = getOptionIndex(name);
+    optionNames.splice(optionIndex, 1);
+    optionLinks.splice(optionIndex, 1);
+}
+
+function removeAllOptions() {
+    optionNames = [];
+    optionLinks = [];
+}
+
+function restoreDefaultOptions() {
+    removeAllOptions();
+    for (let i = 0; i < DEFAULT_OPTION_NAMES.length; i++)
+        addOption(DEFAULT_OPTION_NAMES[i], DEFAULT_OPTION_LINKS[i]);
+    localStorage.clear();
+}
+
+function updateDisplay() {
+    const previousButtons = document.getElementsByClassName("search-button");
+    while(previousButtons.length > 0) {
+        previousButtons[0].remove();
+    }
+    optionNames.forEach(optionName => {
+        createButtonElement(optionName)
+    });
+}
+
+function createButtonElement(optionName) {
+    const newButton = document.createElement("button");
+    newButton.classList.add("search-button");
+    newButton.onclick = function() { search(optionLinks[getOptionIndex(optionName)]) };
+    newButton.oncontextmenu = function() {
+        removeOption(optionName);
+        saveToLocalStorage();
+        updateDisplay();
+        return false;
+    };
+    
+    const textNode = document.createTextNode(optionName);
+    newButton.appendChild(textNode);
+    
+    const containerDiv = document.querySelector("#options-holder");
+    const createButton = containerDiv.querySelector("#open-create-menu");
+    containerDiv.insertBefore(newButton, createButton);
+    return newButton;
+}
+
+function addOptionFromMenu() {
+    const nameElement = document.getElementById("option-name-input");
+    const linkElement = document.getElementById("option-link-input");
+
+    addOption(nameElement.value, linkElement.value);
+    nameElement.value = "";
+    linkElement.value = "";
+}
+
+function showCreateMenu() {
+    const menuElement = document.getElementById("create-option-menu");
+    menuElement.style.display = "flex";
+}
+
+function hideCreateMenu() {
+    const menuElement = document.getElementById("create-option-menu");
+    menuElement.style.display = "none";
+}
+
+function saveToLocalStorage() {
+    const optionsObject = { names: optionNames, links: optionLinks };
+    const serializedOptionsObject = JSON.stringify(optionsObject);
+    localStorage.setItem("localOptions", serializedOptionsObject);
+    return serializedOptionsObject;
+}
+
+function search(optionLink) {
+    const inputElement = document.getElementById("search-input");
+    let link = optionLink.replace(SEARCH_WORD_FORMAT, inputElement.value); // build the link
+    window.open(link, "_self");
+    return link;
+}

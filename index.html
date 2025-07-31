@@ -16,20 +16,19 @@
 
             <p id="find-text" class="small-bottom-margin">Find this word in...</p>
             <div id="options-holder" class="horizontal-container">
-                <button id="open-create-menu" onclick="showMenu('create-option-menu')">+</button>
+                <button id="open-create-menu" onclick="showCreateMenu()">+</button>
             </div>
         </div>
 
         <section id="create-option-menu" class="flex-center">
             <div class="vertical-container medium-bottom-margin">
-                <input type="text" id="option-name-input" class="normal-input" placeholder="Name of the option"/>
-                <input type="text" id="option-start-input" class="normal-input" placeholder="Start of the link"/>
-                <input type="text" id="option-end-input" class="normal-input" placeholder="End of the link"/>
+                <input type="text" id="option-name-input" class="normal-input" placeholder="name"/>
+                <input type="text" id="option-link-input" class="normal-input" placeholder="link"/>
             </div>
             
             <div class="horizontal-container">
-                <button onclick="hideMenu('create-option-menu')">Close menu</button>
-                <button onclick="createNewOptionFromMenu()" class="main-button">Add option</button>
+                <button onclick="hideCreateMenu()">Close menu</button>
+                <button onclick="{ hideCreateMenu(); addOptionFromMenu(); saveToLocalStorage(); updateDisplay(); }" class="main-button">Add option</button>
             </div>
         </section>
 
