@@ -1,6 +1,6 @@
 // TODO: add "restore default options" button/"link"
 // TODO: explain how to add new options in the create menu
-// TODO: explain how right-clicking deletes options
+// TODO: right clicking edits options
 // TODO: fix edge-case of creating empty options
 // TODO: add a favicon
 
@@ -36,11 +36,7 @@ let optionLinks = [];
 updateDisplay();
 hideCreateMenu();
 
-{
-    const searchBox = document.getElementById("search-input");
-    searchBox.focus();
-    searchBox.value = "";
-}
+document.getElementById("search-input").focus();
 
 /* FUNCTION DEFINITIONS */
 
