@@ -1,5 +1,4 @@
 // TODO: right clicking edits options
-// TODO: fix edge-case of creating empty options
 // TODO: add a favicon
 
 const SEARCH_WORD_FORMAT = "LEXICON";
@@ -104,7 +103,8 @@ function addOptionFromMenu() {
     const nameElement = document.getElementById("option-name-input");
     const linkElement = document.getElementById("option-link-input");
 
-    addOption(nameElement.value, linkElement.value);
+    if (nameElement.value != "" || linkElement.value != "")
+        addOption(nameElement.value, linkElement.value);
     nameElement.value = "";
     linkElement.value = "";
 }
