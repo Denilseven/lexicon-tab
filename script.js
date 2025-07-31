@@ -1,4 +1,3 @@
-// TODO: add "restore default options" button/"link"
 // TODO: right clicking edits options
 // TODO: fix edge-case of creating empty options
 // TODO: add a favicon

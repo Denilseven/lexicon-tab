@@ -29,7 +29,7 @@
             
             <div class="horizontal-container">
                 <button onclick="hideCreateMenu()">Close menu</button>
-                <button onclick="{ hideCreateMenu(); addOptionFromMenu(); saveToLocalStorage(); updateDisplay(); }" class="main-button">Add option</button>
+                <button onclick="hideCreateMenu(); addOptionFromMenu(); saveToLocalStorage(); updateDisplay();" class="main-button">Add option</button>
             </div>
 
             <details>
@@ -41,9 +41,9 @@
                 <p>Urban Dict.:<br>https://www.urbandictionary.com/define.php?term=<b>LEXICON</b></p>
                 <p>Auto to Latin in Google Translate:<br>https://translate.google.com/?sl=auto&tl=la&text=<b>LEXICON</b>&op=translate</p>
             </details>
-        </section>
 
-        
+            <a href="#" onclick="restoreDefaultOptions(); updateDisplay(); hideCreateMenu();">Clear data and restore to defaults</a>
+        </section>
     </section>
 
     <a href="https://github.com/Denilseven/lexicon-tab" id="source-text">source code</a>
