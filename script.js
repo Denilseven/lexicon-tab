@@ -33,8 +33,6 @@ let optionLinks = [];
 updateDisplay();
 hideCreateMenu();
 
-document.getElementById("search-input").focus();
-
 /* FUNCTION DEFINITIONS */
 
 function getOptionIndex(name) {
@@ -110,13 +108,15 @@ function addOptionFromMenu() {
 }
 
 function showCreateMenu() {
-    const menuElement = document.getElementById("create-option-menu");
-    menuElement.style.display = "flex";
+    document.getElementById("create-option-menu").style.display = "flex";
+    document.getElementById("search-menu").style.display = "none";
+    document.getElementById("option-name-input").focus();
 }
 
 function hideCreateMenu() {
-    const menuElement = document.getElementById("create-option-menu");
-    menuElement.style.display = "none";
+    document.getElementById("create-option-menu").style.display = "none";
+    document.getElementById("search-menu").style.display = "flex";
+    document.getElementById("search-input").focus();
 }
 
 function saveToLocalStorage() {

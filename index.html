@@ -9,31 +9,29 @@
 </head>
 
 <body>
-    
-    <section id="search-wrapper" class="flex-center">
-        <div id="search-inner" class="flex-center">
-            <input type="text" id="search-input" class="large-bottom-margin" placeholder="Type a word..."/>
+    <div id="search-menu" class="menu">
+        <h1 style="display: none;">LEXICON TAB!</h1>
+        <input type="text" id="search-input" placeholder="Type a word..."/>
 
-            <p id="find-text" class="small-bottom-margin">Find this word in...</p>
-            <div id="options-holder" class="horizontal-container">
-                <button id="open-create-menu" onclick="showCreateMenu()">+</button>
-            </div>
+        <p id="find-text">Find this word in...</p>
+        <div id="options-holder" class="buttons-holder">
+            <button id="open-create-menu" onclick="showCreateMenu()">+</button>
+        </div>
+    </div>
+
+    <section id="create-option-menu" class="menu">
+        <h2 style="margin-bottom: 1rem;">Add a new option</h2>
+        <input type="text" id="option-name-input" class="normal-input" placeholder="Name"/>
+        <input type="text" id="option-link-input" class="normal-input" placeholder="Link"/>
+        
+        <div class="buttons-holder">
+            <button onclick="hideCreateMenu()">Close menu</button>
+            <button onclick="hideCreateMenu(); addOptionFromMenu(); saveToLocalStorage(); updateDisplay();" class="main-button">Add option</button>
         </div>
 
-        <section id="create-option-menu" class="flex-center">
-            <div class="vertical-container medium-bottom-margin">
-                <p>ADD A NEW OPTION</p>
-                <input type="text" id="option-name-input" class="normal-input" placeholder="Name"/>
-                <input type="text" id="option-link-input" class="normal-input" placeholder="Link"/>
-            </div>
-            
-            <div class="horizontal-container">
-                <button onclick="hideCreateMenu()">Close menu</button>
-                <button onclick="hideCreateMenu(); addOptionFromMenu(); saveToLocalStorage(); updateDisplay();" class="main-button">Add option</button>
-            </div>
-
+        <div id="menu-extra-functions">
             <details>
-                <summary><h2>How do I use this?</h2></summary>
+                <summary><u>How do I use this?</u></summary>
                 <p>The "name" of an option can be whatever you want. As for the link, you can grab the URL in the address bar for the site you just searched a word in and then replace that word with an all-caps "LEXICON"!</p>
                 <p><h2>Examples</h2></p>
                 <p>Dictionary:<br>https://www.dictionary.com/browse/<b>LEXICON</b></p>
@@ -41,9 +39,9 @@
                 <p>Urban Dict.:<br>https://www.urbandictionary.com/define.php?term=<b>LEXICON</b></p>
                 <p>Auto to Latin in Google Translate:<br>https://translate.google.com/?sl=auto&tl=la&text=<b>LEXICON</b>&op=translate</p>
             </details>
-
+    
             <a href="#" onclick="restoreDefaultOptions(); updateDisplay(); hideCreateMenu();">Clear data and restore to defaults</a>
-        </section>
+        </div>
     </section>
 
     <a href="https://github.com/Denilseven/lexicon-tab" id="source-text">source code</a>
